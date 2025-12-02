@@ -1,0 +1,21 @@
+{
+  "name": "chorechain-backend",
+  "version": "1.0.0",
+  "description": "ChoreChain is a RESTful API designed to help households collaboratively manage chores.  \r It supports recurring tasks, rotating assignments, completion tracking, and role-based access for household members.  \r The system promotes accountability and shared responsibility through reminders, streaks, and chore analytics.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.0.0",
+    "nodemon": "^3.1.11"
+  }
+}
