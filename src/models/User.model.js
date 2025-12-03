@@ -2,7 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import crypto from "crypto"
-const userschema = Schema(
+
+const userschema = new Schema(
     {
         username:{
             type : String,
@@ -34,9 +35,7 @@ const userschema = Schema(
         refreshToken:{
             type:String
         },
-                refreshtoken:{
-            type:String
-        },
+       
         forgetpasswordtoken:{
             type:String
         },
@@ -52,17 +51,17 @@ const userschema = Schema(
     }
 )
 userschema.pre("save",async function(next){
-    if(!this.isModified("password")) return next ()
+    if(!this.isModified("password")) return 
         const hash= await bcrypt.hash(this.password,10);
-    this.password=hash
-    next()
+    this.password=hash;
+    
 })
 userschema.methods.isPasswordCorrect=async function (password) {
     return await bcrypt.compare(password,this.password)
 
 }
 userschema.methods.GenerateAccessTOken=function (){
-    jwt.sign(
+   return jwt.sign(
         {
             _id:this._id,
             email:this.email,
@@ -72,7 +71,7 @@ userschema.methods.GenerateAccessTOken=function (){
     )
 }
 userschema.methods.GenerateRefreshtoken=function (){
-    jwt.sign(
+    return jwt.sign(
         {
             _id:this._id,
             email:this.email,
@@ -83,7 +82,7 @@ userschema.methods.GenerateRefreshtoken=function (){
 }
 userschema.methods.generateTemporaryToken=function (){
 const unhashedtoken =  crypto.randomBytes(20).toString("hex");
-const hashedtoken = crypto('sha256')
+const hashedtoken = crypto.createHash('sha256')
                .update(unhashedtoken)
                .digest('hex');
 
