@@ -95,7 +95,7 @@ The system promotes accountability and shared responsibility through reminders, 
 - **MongoDB** — Data persistence  
 - **JWT** — Authentication  
 - **Multer** — File uploads (optional)  
-- **Nodemailer / Mailgen** — Email notifications  
+- **Brevo** — Email notifications  
 
 ---
 
