@@ -49,16 +49,7 @@ The system promotes accountability and shared responsibility through reminders, 
 - `POST /reset-password/:token` — Reset password  
 - `POST /resend-verification` — Resend verification email  
 
-### Households (`/api/v1/households/`)
-- `POST /` — Create household  
-- `GET /` — List user households  
-- `GET /:householdId` — Get household details  
-- `PUT /:householdId` — Update household (Admin only)  
-- `DELETE /:householdId` — Delete household (Admin only)  
-- `POST /:householdId/invite` — Invite member  
-- `GET /:householdId/members` — List members  
-- `PUT /:householdId/members/:userId` — Update role  
-- `DELETE /:householdId/members/:userId` — Remove member  
+ 
 
 ### Chores (`/api/v1/chores/`)
 - `POST /:householdId` — Create chore  
