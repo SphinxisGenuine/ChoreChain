@@ -7,7 +7,7 @@ const householdMemberSchema = new Schema ({
       ref: "User",
       required: true,
     },
-    Household: {
+    household: {
       type: Schema.Types.ObjectId,
       ref: "Household",
       required: true,
