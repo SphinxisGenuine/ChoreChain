@@ -1,8 +1,8 @@
-import { Schema, Types } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { frequencyTypeenum,AvailableFrequency, AvailableTaskStatues, TaskStatusEnum } from "../utils/constants";
 
 
-const householdtaskschema = new Schema({
+const householdchoreschema = new Schema({
     name :{
         type:String,
         trim:true,
@@ -19,13 +19,13 @@ const householdtaskschema = new Schema({
         required:true,
     },
     dueDate:{
-        type:Date,
-        required:true
+        type:Date
     },
     frequency:{
         type:String,
         enum:AvailableFrequency,
         default:frequencyTypeenum.DAILY
+        
     },
     status:{
         type:String,
@@ -36,6 +36,13 @@ const householdtaskschema = new Schema({
         type:Types.ObjectId,
         ref:"HouseholdMember"
 }
-
+,lastCompletedAt: {type: Date, 
+    default: null 
+}, 
+ completedAt: { type: Date,  
+     default: null}
+,
 
 },{timestamps:true})
+
+export const Chore = mongoose.model("Chore",householdchoreschema)
