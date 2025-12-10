@@ -6,6 +6,9 @@ import { HouseholdMember } from "../models/household.member.model.js"
 import { Apiresponse } from "../utils/ApiResponse.js"
 import { Household } from "../models/household.model.js"
 
+
+
+
 const createchore = asyncHandler( async (req,res) => {
 const {name,description,dueDate,assignedTo,frequency,householdid}=req.body
 // todo will write a middleware to check for owner and modify req to req.Householddid  will have project id
@@ -48,7 +51,23 @@ res.status(200).json(
     new Apiresponse(200,chores,"Fetched The Chhores Succesfully ")
 )
 })
+const rotateAssignee = async (isChoreExist, householdId) => {
+  const members = await HouseholdMember.find({ household: householdId });
+  if (!members.length) return; 
 
+  const memberIds = members.map(m => m._id);
+
+  const currentIndex = memberIds.findIndex(
+    id => id.toString() === isChoreExist.assignedTo.toString()
+  );
+
+  const nextIndex =
+    currentIndex === -1
+      ? 0
+      : (currentIndex + 1) % memberIds.length;
+
+  isChoreExist.assignedTo = memberIds[nextIndex];
+};
 const choreComplete= asyncHandler( async (req,res) => {
     const {householdId,choreid}=req.params;
     const householddoc =await  Household.findOne({_id:householdId})
@@ -61,7 +80,7 @@ if (!isChoreExist){
     throw new ApiError(404,{},"No Chore found with these id ")
 }
 const frequency =isChoreExist.frequency;
-
+     
 const now = new Date();
 const current = isChoreExist.dueDate;
 const msInDay = 24 * 60 * 60 * 1000;
@@ -75,14 +94,18 @@ res.status(200).json(
 )}
 else if (frequency===frequencyTypeenum.DAILY){
 isChoreExist.lastCompletedAt=now;
-isChoreExist.dueDate=new Date(current.getTime() + 1 * msInDay);    
+isChoreExist.dueDate=new Date(current.getTime() + 1 * msInDay);   
+await rotateAssignee(isChoreExist,householddoc._id)
+
 await isChoreExist.save({validateBeforeSave:false})
 res.status(200).json(
     new Apiresponse(200,isChoreExist,"Task Has Been Set to be completed and Next Due Date Has been set  ")
 )} 
 else if (frequency===frequencyTypeenum.WEEKLY){
     isChoreExist.lastCompletedAt=now;
-  isChoreExist.dueDate  =new Date(base.getTime() + 7 * msInDay);
+  isChoreExist.dueDate  =new Date(current.getTime() + 7 * msInDay);
+await rotateAssignee(isChoreExist,householddoc._id)
+
     await isChoreExist.save({validateBeforeSave:false})
  res.status(200).json(
     new Apiresponse(200,isChoreExist,"Task Has Been Set to be completed  and Next Due Date Has been set")
@@ -94,13 +117,10 @@ else if (frequency===frequencyTypeenum.MONTHLY){
     const next = new Date(current);
 next.setMonth(next.getMonth() + 1);
 isChoreExist.dueDate=next;
+await rotateAssignee(isChoreExist,householddoc._id)
     await isChoreExist.save({validateBeforeSave:false})
 res.status(200).json(
     new Apiresponse(200,isChoreExist,"Task Has Been Set to be completed and Next Due Date Has been set")
 )
 } 
-
-
-
-
 })
