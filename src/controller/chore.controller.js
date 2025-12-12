@@ -8,7 +8,7 @@ import { Household } from "../models/household.model.js"
 
 
 
-
+    
 const createchore = asyncHandler( async (req,res) => {
 const {name,description,dueDate,assignedTo,frequency,householdid}=req.body
 // todo will write a middleware to check for owner and modify req to req.Householddid  will have project id

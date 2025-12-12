@@ -60,8 +60,8 @@ res.status(201).json(
 )
 })
 const getallMebersOfhousehold = asyncHandler( async (req,res) => {
-    const {householdid}=req.params;
-   const Householddoc = await Household.findById(householdid);
+    const {householdId}=req.params;
+   const Householddoc = await Household.findById(householdId);
     if(!Householddoc){
         throw new ApiError(404,"there Is no Household With That Id ")
     } 
@@ -70,6 +70,7 @@ res.status(200).json(
     new Apiresponse(200,householdmember,"Succesfully fetched data ")
 )
 })
+
 const removememberfromhousehold= asyncHandler(async (req,res) => {
     const{householdId,userId}=req.params;
     const Householddoc = await Household.findById(householdId);
@@ -109,3 +110,12 @@ const getHouseHoldbyId = asyncHandler(async (req , res) => {
     .status(200)
     .json(new Apiresponse(200,Householddoc , "houseHold fetched successfully"));
 });
+
+export {
+    createHousehold,
+    addMemberToHousehold,
+    getallMebersOfhousehold,
+    removememberfromhousehold,
+    deletehouseholdt,
+    getHouseHoldbyId,
+}

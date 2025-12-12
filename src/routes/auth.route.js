@@ -5,8 +5,9 @@ import { userChangeCurrentPasswordValidator, userForgotPasswordValidator, userLo
 import { validate } from "../middlleware/validator.middleware.js";
 const router =Router()
 //unsec
-router.route("/register").post(userRegisterValidator(),validate,registeruser)
+router.route("/register").post(userLoginValidator(),validate,registeruser)
 router.route("/login").post(userLoginValidator(),validate,login);
+// userLoginValidator(),validate,
 router.route("/verify-email/:verificationtoken").get(verifytoken)
 router.route("/forgot-password").post(userForgotPasswordValidator(),validate,forgotPasswordRequest)
 router.route("/reset-password/:resetToken").post(userResetForgotPasswordValidator(),validate,resetPassword)
