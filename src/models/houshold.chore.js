@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { frequencyTypeenum,AvailableFrequency, AvailableTaskStatues, TaskStatusEnum } from "../utils/constants";
+import { frequencyTypeenum,AvailableFrequency, AvailableTaskStatues, TaskStatusEnum } from "../utils/constants.js";
 
 
 const householdchoreschema = new Schema({

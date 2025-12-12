@@ -1,4 +1,4 @@
-import asyncHandler from "../utils/asyncHandler.js"
+import {asyncHandler}  from "../utils/asyncHandler.js"
 import { Chore } from "../models/houshold.chore.js"
 import { ApiError } from "../utils/ApiError.js"
 import { AvailableFrequency, AvailableTaskStatues, frequencyTypeenum, TaskStatusEnum } from "../utils/constants.js"
@@ -10,16 +10,16 @@ import { Household } from "../models/household.model.js"
 
     
 const createchore = asyncHandler( async (req,res) => {
-const {name,description,dueDate,assignedTo,frequency,householdid}=req.body
-// todo will write a middleware to check for owner and modify req to req.Householddid  will have project id
-const isSameChoreAvailable = await Chore.findOne({name,household:householdid})
+const {name,description,dueDate,assignedTo,frequency}=req.body
+const {householdId}=req.params;
+const isSameChoreAvailable = await Chore.findOne({name,household:householdId})
 if  (isSameChoreAvailable){
 throw new ApiError(400,{},"Chore with Same Name Exist ")
 }
 if(!AvailableFrequency.includes(frequency)){
 throw new ApiError(400,{},`Freqency shyoulbe valid it should be from ${AvailableFrequency}`);    
 }
-const  isMemberofHousehold = await HouseholdMember.findOne({user:assignedTo,household:householdid})
+const  isMemberofHousehold = await HouseholdMember.findOne({user:assignedTo,household:householdId})
 if(!isMemberofHousehold) {
     throw new ApiError(404,{},"The user you're assigning to must be a member of this household");
 }
@@ -28,7 +28,7 @@ const newChore =  await Chore.create({
     description,
     assignedTo:isMemberofHousehold._id, 
     frequency,
-household:householdid,
+household:householdId,
 dueDate,
 })
 res.status(201).json(
@@ -124,3 +124,11 @@ res.status(200).json(
 )
 } 
 })
+
+
+
+export {
+    createchore,
+    getAllChores,
+    choreComplete
+}

@@ -26,5 +26,6 @@ export {
   AvailableFrequency,
   AvailableTaskStatues,
   frequencyTypeenum,
-  AvailableUserRole
+  AvailableUserRole,
+  TaskStatusEnum
 }
