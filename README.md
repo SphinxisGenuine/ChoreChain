@@ -51,18 +51,19 @@ The system promotes accountability and shared responsibility through reminders, 
 
  
 
-### Chores (`/api/v1/chores/`)
-- `POST /:householdId` — Create chore  
-- `GET /:householdId` — List chores  
-- `GET /:householdId/c/:choreId` — Get chore details  
-- `PUT /:householdId/c/:choreId` — Update chore  
-- `DELETE /:householdId/c/:choreId` — Delete chore  
-- `POST /:householdId/c/:choreId/complete` — Mark complete  
-- `GET /:householdId/c/:choreId/history` — View completion history  
+### HouseHold  (`/api/v1/core/`)
+`POST   /createHoushold`
+`GET    /household/:householdId`
+`POST   delete/:householdId`
+`POST   /member/:householdId`
+`GET    /members/:householdId`
+`POST   /households/:householdId/members/:userId`
 
-### Stats (`/api/v1/stats/`)
-- `GET /:householdId/members/:userId` — Member stats  
-- `GET /:householdId/overview` — Household overview  
+### Chore (`/api/v1/core/ing`)
+
+`POST   /api/v1/core/ing/households/:householdId/chore`
+`GET    /api/v1/core/ing/households/:householdId/chores`
+`POST   /api/v1/core/ing/households/:householdId/:choreid`
 
 ---
 
